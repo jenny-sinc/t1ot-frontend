@@ -1,0 +1,42 @@
+.container {
+    min-height: 100vh;
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "header header header header"
+        "sidebar map map map"
+        "footer footer footer footer";
+}
+
+.header {
+    grid-area: header;
+    background-color: palegreen;
+}
+
+.sidebar {
+    grid-area: sidebar;
+    background-color: palegoldenrod;
+}
+
+.map {
+    grid-area: map;
+    background-color: lightgray;
+}
+
+.footer {
+    grid-area: footer;
+    background-color: lightblue;
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "header"
+            "map"
+            "sidebar"
+            "footer";
+    }
+}
