@@ -3,8 +3,13 @@ import Header from '../header/Header'
 import Map from '../map/Map'
 import Sidebar from '../sidebar/Sidebar'
 import Footer from '../footer/Footer'
+import { useState } from 'react'
 
-export default function Layout() {
+type LayoutProps = {
+};
+
+export default function Layout({ }: LayoutProps) {
+
     return (
         <div className={styles.container}>
             <header className={styles.header}>
