@@ -1,15 +1,15 @@
-type LogoProps = {
-    device: 'mobile' | 'desktop'
-}
+import React from 'react';
+import logoImg from './logo.png';
+import styles from './Logo.module.css';
 
-export default function Logo({ device }: LogoProps) {
-    return device === 'mobile' ? (
-        <div className="mobile">
-            <img src="/logo.png" alt="T1 on Tour Logo" />
+export default function Logo() {
+    return (
+        <div className={styles.logoContainer}>
+            <img
+                src={logoImg}
+                className='img-thumbnail'
+                alt='T1 on Tour logo of a location pin'
+            />
         </div>
-    ) : (
-        <div className="desktop">
-            <img src="/logo.png" alt="T1 on Tour Logo" />
-        </div>
-    )
+    );
 }
