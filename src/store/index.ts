@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import uiReducer from './uiSlice';
 import searchReducer from './search';
+import submitReducer from './submit';
 
 export const store = configureStore({
   reducer: {
     ui: uiReducer,
     search: searchReducer,
+    submit: submitReducer,
   },
 });
 

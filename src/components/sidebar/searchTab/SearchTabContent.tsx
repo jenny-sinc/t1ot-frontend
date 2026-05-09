@@ -1,64 +1,73 @@
-import { useDispatch } from 'react-redux';
-import { setSearchLocation } from '../../../store/search'; // Adjust path to your search.ts
-
-
-
+import { Form, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { useState } from 'react';
-import { Tab, Tabs, Form, Button, Stack } from 'react-bootstrap';
-
-// type SearchInputsProps = {
-//     searchLocation: string;
-//     insulinFormat: string[];
-// };
+import { DistanceRange } from './formComponents/DistanceRange';
+import { LocationInput } from '../common/LocationInput';
+import { InsulinTypeSelector } from '../common/InsulinTypeSelector';
+import { InsulinFormatSelector } from '../common/InsulinFormatSelector';
+import { getTooltipText } from '../../../utils/helperFunctions';
 
 export default function SearchTabContent() {
-    // const dispatch = useDispatch();
 
-    // // 1. Handle Location changes (Redux)
-    // const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     dispatch(setSearchLocation(e.target.value));
-    // };
+    const [location, setLocation] = useState('');
+    const [distance, setDistance] = useState(5);
+    const [insulinTypes, setInsulinTypes] = useState({ longActing: true, fastActing: true });
+    const [insulinFormats, setInsulinFormats] = useState({ vial: true, cartridge: true, prefill: true });
 
-    // // 2. Handle Checkbox changes (Local UI state or Redux)
-    // // Note: If you want these in Redux too, you'd dispatch setInsulinFormat here
-    // const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault();
-    //     console.log('Searching for:', searchLocation);
-    // };
+    const handleToggleType = (name: string) => {
+        setInsulinTypes(prev => ({ ...prev, [name]: !prev[name as keyof typeof insulinTypes] }));
+    };
+
+    const handleSelectAllTypes = (checked: boolean) => {
+        setInsulinTypes({ longActing: checked, fastActing: checked });
+    };
+
+    const handleToggleFormat = (name: string) => {
+        setInsulinFormats(prev => ({ ...prev, [name]: !prev[name as keyof typeof insulinFormats] }));
+    };
+
+    const handleSelectAllFormats = (checked: boolean) => {
+        setInsulinFormats({ vial: checked, cartridge: checked, prefill: checked });
+    };
+
+    const handleSearch = () => {
+        const searchData = {
+            location,
+            distance,
+            insulinTypes: insulinTypes,
+            insulinFormats: insulinFormats,
+        };
+        console.log("Search Data Object:", searchData);
+    };
 
     return (
-        // <form className={styles.tabContent} onSubmit={handleSearch}>
-        //     <label>
-        //         Location
-        //         <input
-        //             type="text"
-        //             name="searchLocation"
-        //             value={searchLocation} // This now comes from Redux via props
-        //             placeholder="Search for a location..."
-        //             onChange={handleLocationChange}
-        //         />
-        //     </label>
-
-        //     <p>Insulin format:</p>
-        //     <label>
-        //         Pre-filled pen
-        //         <input type="checkbox" name="preFilledPen" />
-        //     </label>
-        //     {/* ... other checkboxes ... */}
-
-        //     <button type="submit">Submit</button>
-        // </form>
-
-        <Form>
-            <Form.Group className="mb-3">
-                <Form.Label>Location</Form.Label>
-                <Form.Control type="text" placeholder="Enter city..." />
-            </Form.Group>
-            <Form.Group className="mb-3">
-                <Form.Check type="checkbox" label="Pre-filled pen" />
-                <Form.Check type="checkbox" label="Vial" />
-            </Form.Group>
-            <Button variant="primary" className="w-100">Search</Button>
+        <Form >
+            <LocationInput
+                value={location}
+                onChange={setLocation}
+            />
+            <DistanceRange
+                value={distance}
+                onChange={setDistance}
+            />
+            <InsulinTypeSelector
+                insulinTypes={insulinTypes}
+                onToggle={handleToggleType}
+                onSelectAll={handleSelectAllTypes}
+                tooltipText={getTooltipText('insulinType')}
+            />
+            <InsulinFormatSelector
+                insulinFormats={insulinFormats}
+                onToggle={handleToggleFormat}
+                onSelectAll={handleSelectAllFormats}
+                tooltipText={getTooltipText('insulinFormat')}
+            />
+            <Button
+                variant="primary"
+                className="w-100"
+                onClick={handleSearch}
+            >
+                Search
+            </Button>
         </Form>
     );
 }

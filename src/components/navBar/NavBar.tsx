@@ -1,7 +1,7 @@
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import Logo from '../logo/Logo';
-import { RootState } from '../../../store';
+import { RootState } from '../../store';
 
 export default function NavBar() {
 
@@ -10,10 +10,13 @@ export default function NavBar() {
 
         <Navbar expand="md" bg='primary' data-bs-theme="light" className="navbar navbar-expand-md">
             <Container fluid>
-                <Navbar.Toggle aria-controls="navbarColor01 no-border" />
+                <Navbar.Brand href="#home">
+                    <Logo />
+                </Navbar.Brand>
+                <Navbar.Toggle aria-controls="navbarColor01" className="no-border" />
                 <Navbar.Collapse id="navbarColor01">
                     <Nav
-                        className='nav nav-underline'
+                        className='nav nav-underline ms-auto'
                     // activeKey="#home"
                     >
                         <Nav.Item>

@@ -55,8 +55,12 @@
 export default function MapContainer() {
     return (
         <div className="bg-secondary rounded d-flex align-items-center justify-content-center"
-            style={{ height: '500px', border: '2px dashed #000' }}>
+            style={{
+                height: '100%',
+                minHeight: '400px',
+                border: '2px dashed #000'
+            }}>
             <p className="text-white">Map Placeholder</p>
-        </div>
+        </div >
     );
 }
