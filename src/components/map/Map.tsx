@@ -1,4 +1,11 @@
-// import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import * as maptiler from '@maptiler/sdk';
+import "@maptiler/sdk/dist/maptiler-sdk.css";
+import "./Map.css";
+import configData from '../../config';
+
+maptiler.config.apiKey = configData.MAPTILER_API_KEY;
+
 // import { fetchLocations } from '../../services/locations';
 // import { supabase } from '../../utils/supabase';
 
@@ -52,15 +59,44 @@
 //     );
 // }
 
-export default function MapContainer() {
+export default function Map() {
+
+    const mapContainer = useRef<HTMLDivElement>(null);
+    const map = useRef<maptiler.Map | null>(null);
+
+    const center = { lng: -1.548756, lat: 53.794253 };
+    const zoom = 4;
+
+    useEffect(() => {
+        // Prevent double initialization if React StrictMode runs twice
+        if (map.current || !mapContainer.current) return;
+
+        map.current = new maptiler.Map({
+            // Pass the ref directly instead of targeting a global DOM string ID
+            container: mapContainer.current,
+            style: maptiler.MapStyle.STREETS,
+            center: [center.lng, center.lat],
+            zoom: zoom
+        });
+
+        // Cleanup configuration to release memory when component destroys
+        return () => {
+            if (map.current) {
+                map.current.remove();
+                map.current = null;
+            }
+        };
+    }, []);
+
     return (
-        <div className="bg-secondary rounded d-flex align-items-center justify-content-center"
+        <div
+            className="bg-secondary rounded border border-2 position-relative w-100 flex-grow-1"
             style={{
-                height: '100%',
                 minHeight: '400px',
-                border: '2px dashed #000'
-            }}>
-            <p className="text-white">Map Placeholder</p>
-        </div >
+                height: '100%'
+            }}
+        >
+            <div ref={mapContainer} className="map-view-container h-100 w-100 rounded" />
+        </div>
     );
 }
