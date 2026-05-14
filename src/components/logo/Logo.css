@@ -1,0 +1,14 @@
+.logo {
+    height: 45px;
+    width: 45px;
+}
+
+.logo-div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-h1 {
+    margin: 0;
+}
